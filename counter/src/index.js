@@ -10,15 +10,35 @@ const initialState = {
 }
 
 const INCREMENT = 'increment';
+const DECREMENT = 'decrement';
+const RESET = 'reset';
 
 const incrementValue = () => ({
   type: INCREMENT,
 });
 
+const decrementValue = () => ({
+  type: DECREMENT,
+})
+
+const resetValue = () => ({
+  type: RESET,
+})
+
 const reducer = (state = initialState, action) => {
   if (action.type === INCREMENT) {
     return {
       count: state.count + 1,
+    }
+  }
+  if (action.type === DECREMENT) {
+    return {
+      count: state.count - 1,
+    }
+  }
+  if (action.type === RESET) {
+    return {
+      count: 0,
     }
   }
   return state;
@@ -28,14 +48,14 @@ const store = createStore(reducer);
 
 class App extends React.Component {
   render() {
-    const {count, increment} = this.props;
+    const {count, increment, decrement, reset} = this.props;
     return(
       <div className="Counter">
         <p className="count">{count}</p>
         <div className="controls">
           <button onClick={increment}>Increment</button>
-          <button>Decrement</button>
-          <button>Reset</button>
+          <button onClick={decrement}>Decrement</button>
+          <button onClick={reset}>Reset</button>
         </div>
       </div>
     )
@@ -50,6 +70,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     increment() {
       dispatch(incrementValue()); 
+    },
+    decrement() {
+      dispatch(decrementValue());
+    },
+    reset() {
+      dispatch(resetValue());
     }
   }
 }
