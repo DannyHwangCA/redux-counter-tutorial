@@ -28,11 +28,12 @@ const store = createStore(reducer);
 
 class App extends React.Component {
   render() {
+    const {count, increment} = this.props;
     return(
       <div className="Counter">
-        <p className="count">0</p>
+        <p className="count">{count}</p>
         <div className="controls">
-          <button>Increment</button>
+          <button onClick={increment}>Increment</button>
           <button>Decrement</button>
           <button>Reset</button>
         </div>
@@ -41,10 +42,26 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment() {
+      dispatch(incrementValue()); 
+    }
+  }
+}
+
+const CounterContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <CounterContainer />
   </Provider>,
   document.getElementById('root')
 );
